@@ -1,5 +1,20 @@
 {
+  "name": "festival-musica",
+  "version": "1.0.0",
+  "description": "Curso Desarrollo Web Completo",
+  "main": "gulpfile.js",
+  "scripts": {
+    "sass": "sass --watch src/scss:build/css",
+    "tarea": "gulp tarea"
+  },
+  "keywords": [
+    "SASS",
+    "Gulp"
+  ],
+  "author": "José Angel Vásquez",
+  "license": "ISC",
   "devDependencies": {
+    "gulp": "^4.0.2",
     "sass": "^1.63.4"
   }
 }
