@@ -1,7 +1,12 @@
 
 const { src, dest, watch } = require("gulp");
+
+// CSS
+
 const sass = require("gulp-sass") (require("sass"));
 const plumber = require("gulp-plumber");
+
+// Imágenes
 
 function css( done ) {
   src("src/scss/**/*.scss")
