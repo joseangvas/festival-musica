@@ -12,8 +12,7 @@
 
     .dia {
       text-transform: uppercase;
-      margin-bottom: 5rem;
-
+      margin: 5rem 0;
     }
 }
 
@@ -52,13 +51,29 @@
     background-image: url(../img/icono_rock.png);
 }
 
+.calendario {
+  @include m.resetear-lista;
+  li {
+    padding: 2.5rem;
+    font-weight: 700;
+    span {
+      font-weight: 400;
+    }
+  }
+}
 
 .bg-amarillo {
   background-color: v.$amarillo;
   border-radius: 20px;
+  li:nth-child(odd) {  // Filtra las Impares
+    background-color: darken(v.$amarillo, 25%); // Oscurecer Franjas impares
+  }
 }
 
 .bg-verde {
   background-color: v.$verde;
   border-radius: 20px;
+  li:nth-child(odd) {  // Filtra las Impares
+    background-color: darken(v.$verde, 10%); // Oscurecer Franjas impares
+  }
 }
