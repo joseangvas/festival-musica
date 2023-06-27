@@ -1,21 +1,32 @@
 // Gulp
-const { src, dest, watch, parallel } = require("gulp");
+const { src, dest, watch, parallel } = require('gulp');
 
 // CSS
-const sass = require("gulp-sass") (require("sass"));
-const plumber = require("gulp-plumber");
+const sass = require('gulp-sass') (require('sass'));
+const plumber = require('gulp-plumber');
+const autoprefixer = require('autoprefixer');
+const cssnano = require('cssnano');
+const postcss = require('gulp-postcss');
+const sourcemaps = require('gulp-sourcemaps');
 
 // Imágenes
-const cache = require("gulp-cache");
-const imagemin = require("gulp-imagemin");
-const webp = require("gulp-webp");
-const avif = require("gulp-avif");
+const cache = require('gulp-cache');
+const imagemin = require('gulp-imagemin');
+const webp = require('gulp-webp');
+const avif = require('gulp-avif');
+
+// Javascript
+const terser = require('gulp-terser-js');
+
 
 function css( done ) {
-  src("src/scss/**/*.scss")
+  src('src/scss/**/*.scss')
+    .pipe(sourcemaps.init())
     .pipe(plumber())
     .pipe(sass())
-    .pipe(dest("build/css"))
+    .pipe(postcss([autoprefixer(), cssnano()]))
+    .pipe(sourcemaps.write('.'))
+    .pipe(dest('build/css'))
   done();
 }
 
@@ -54,13 +65,16 @@ function versionAvif( done ) {
 
 function javascript( done ) {
   src('src/js/**/*.js')
-    .pipe(dest('build/js'));
+    .pipe( sourcemaps.init() )
+    .pipe( terser() )
+    .pipe( dest('build/js') )
+    .pipe( sourcemaps.write('.') )
   done();
 }
 
 function dev( done ) {
-  watch("src/scss/**/*.scss", css);
-  watch("src/js/**/*.js", javascript);
+  watch('src/scss/**/*.scss', css);
+  watch('src/js/**/*.js', javascript);
   done();
 }
 
@@ -69,4 +83,4 @@ exports.js = javascript;
 exports.imagenes = imagenes;
 exports.versionWebp = versionWebp;
 exports.versionWebp = versionAvif;
-exports.dev = parallel(imagenes, versionWebp, versionAvif, javascript, dev);  // Ejecuta las tareas al mismo tiempo
+exports.dev = parallel(imagenes, versionWebp, versionAvif, javascript, css, dev);  // Ejecuta las tareas al mismo tiempo
